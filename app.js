@@ -303,42 +303,14 @@ $("tryGoodForage").addEventListener("click",()=>{
   $("goodForageCard").scrollIntoView({behavior:"smooth",block:"start"});
 });
 
-function updateGoodForage(){
-  const grassDMpct=val("goodGrassDMpct");
-  const grassCPpct=val("goodGrassCPpct");
-  const grassNDFpct=val("goodGrassNDFpct");
-  const concFresh=val("goodConcFresh");
-
-  const dmPctOk=Number.isFinite(grassDMpct) && grassDMpct>=15 && grassDMpct<=20;
-  const cpPctOk=Number.isFinite(grassCPpct) && grassCPpct>=15 && grassCPpct<=20;
-  const ndfPctOk=Number.isFinite(grassNDFpct) && grassNDFpct>=35 && grassNDFpct<=40;
-  const concOk=Number.isFinite(concFresh) && concFresh>=4 && concFresh<=8;
-
-  mark("goodGrassDMpct","goodGrassDMpctFeedback",dmPctOk,"Within 15–20% DM range");
-  mark("goodGrassCPpct","goodGrassCPpctFeedback",cpPctOk,"Within 15–20% CP range");
-  mark("goodGrassNDFpct","goodGrassNDFpctFeedback",ndfPctOk,"Within 35–40% NDF range");
-  mark("goodConcFresh","goodConcFreshFeedback",concOk,"Within 4–8 kg/day range");
-
-  if(!(dmPctOk && cpPctOk && ndfPctOk && concOk)){
-    ["goodMaintenanceME","goodMilkMEperL","goodTotalMEcalc","goodConcDM","goodConcME",
-     "goodGrassME","goodGrassDMkg","goodGrassFresh","goodTotalDMI","goodGrassNDFkg",
-     "goodDietCP","goodCPcheck","goodDMIcheck"].forEach(id=>$(id).textContent="—");
-    setFeedback("goodForageFeedback","fail",
-      "Keep leafy ryegrass DM and CP within 15–20%, NDF within 35–40%, and fresh concentrate within 4–8 kg/cow/day.");
-    return;
-  }
-
-  // Teacher-supplied q = 0.75.
-  // The source table only gives q = 0.6 and 0.7, so use linear extrapolation.
+function goodScenario(concFresh, grassDMpct, grassCPpct, grassNDFpct, concNDFpct, pricePerTonne){
   const q=0.75;
 
-  // Maintenance, 550 kg: 58 MJ at q=.6 and 61 MJ at q=.7
+  // Original source tables stop at q=.7, so q=.75 is a simple linear extrapolation.
   const maintenanceME = 58 + ((q-0.6)/(0.7-0.6))*(61-58);
-
-  // Milk, 4.5% fat and 3.4% protein: 5.50 MJ/L at q=.6 and 5.21 at q=.7
   const milkMEperL = 5.50 + ((q-0.6)/(0.7-0.6))*(5.21-5.50);
   const milkMEday = milkMEperL*25;
-  const totalME = maintenanceME + milkMEday; // no BW change
+  const totalME = maintenanceME + milkMEday;
 
   const concDM=concFresh*0.90;
   const concME=concDM*13.0;
@@ -347,45 +319,136 @@ function updateGoodForage(){
   const grassFresh=grassDM/(grassDMpct/100);
   const totalDMI=grassDM+concDM;
 
-  const cpKg=grassDM*(grassCPpct/100)+concDM*0.18;
+  // Standard dairy ration in this optional scenario = 16% CP.
+  const cpKg=grassDM*(grassCPpct/100)+concDM*0.16;
   const dietCP=cpKg/totalDMI*100;
 
   const grassNDFkg=grassDM*(grassNDFpct/100);
+  const concNDFkg=concDM*(concNDFpct/100);
+  const totalNDFkg=grassNDFkg+concNDFkg;
+  const dietNDF=totalNDFkg/totalDMI*100;
 
-  $("goodMaintenanceME").textContent=`${maintenanceME.toFixed(1)} MJ/day`;
-  $("goodMilkMEperL").textContent=`${milkMEperL.toFixed(2)} MJ/L`;
-  $("goodTotalMEcalc").textContent=`${totalME.toFixed(1)} MJ/day`;
-  $("goodTotalMETarget").textContent=`${totalME.toFixed(1)} MJ/day`;
-  $("goodConcDM").textContent=`${concDM.toFixed(2)} kg/day`;
-  $("goodConcME").textContent=`${concME.toFixed(1)} MJ/day`;
-  $("goodGrassME").textContent=`${grassME.toFixed(1)} MJ/day`;
-  $("goodGrassDMkg").textContent=`${grassDM.toFixed(2)} kg/day`;
-  $("goodGrassFresh").textContent=`${grassFresh.toFixed(1)} kg/day`;
-  $("goodTotalDMI").textContent=`${totalDMI.toFixed(2)} kg/day`;
-  $("goodGrassNDFkg").textContent=`${grassNDFkg.toFixed(2)} kg/day`;
-  $("goodDietCP").textContent=`${dietCP.toFixed(1)}%`;
-  $("goodCPcheck").textContent=dietCP>=16?"Meets/exceeds target":"Below target";
-  $("goodDMIcheck").textContent=totalDMI<=16?"Within 16 kg":"Above 16 kg";
+  const cost=concFresh*(pricePerTonne/1000);
+  const costLow=concFresh*0.340;
+  const costHigh=concFresh*0.380;
 
-  const passCP=dietCP>=16;
-  const passDMI=totalDMI<=16;
+  const feasible = totalDMI<=16 && dietCP>=16 && concFresh>=4 && concFresh<=8;
 
-  if(passCP && passDMI){
-    setFeedback("goodForageFeedback","pass",
-      `At q = 0.75 the extrapolated ME requirement is about ${totalME.toFixed(1)} MJ/day. With ${concFresh.toFixed(1)} kg fresh concentrate/day and leafy ryegrass at ${grassDMpct.toFixed(1)}% DM, ${grassCPpct.toFixed(1)}% CP and ${grassNDFpct.toFixed(1)}% NDF, total DMI is about ${totalDMI.toFixed(2)} kg/day and diet CP is ${dietCP.toFixed(1)}%. The grass contributes ${grassNDFkg.toFixed(2)} kg NDF/day. A complete diet-NDF percentage cannot be calculated until concentrate NDF is known.`);
-  }else if(!passCP && passDMI){
-    setFeedback("goodForageFeedback","warn",
-      `Energy and DMI fit, but diet CP is only ${dietCP.toFixed(1)}%. Increase grass CP within the supplied range, adjust concentrate, or reformulate. Grass NDF contribution is ${grassNDFkg.toFixed(2)} kg/day.`);
-  }else if(passCP && !passDMI){
-    setFeedback("goodForageFeedback","warn",
-      `Protein is adequate, but total DMI is ${totalDMI.toFixed(2)} kg/day, above the 16 kg anticipated intake. Reformulation is needed.`);
+  return {
+    maintenanceME,milkMEperL,milkMEday,totalME,
+    concDM,concME,grassME,grassDM,grassFresh,totalDMI,
+    dietCP,grassNDFkg,concNDFkg,totalNDFkg,dietNDF,
+    cost,costLow,costHigh,feasible
+  };
+}
+
+function renderGoodCostTable(grassDMpct, grassCPpct, grassNDFpct, concNDFpct, pricePerTonne){
+  const tbody=$("goodCostTable").querySelector("tbody");
+  tbody.innerHTML="";
+  let cheapest=null;
+
+  [4,5,6,7,8].forEach(amount=>{
+    const r=goodScenario(amount,grassDMpct,grassCPpct,grassNDFpct,concNDFpct,pricePerTonne);
+    if(r.feasible && (!cheapest || r.cost<cheapest.r.cost)){
+      cheapest={amount,r};
+    }
+
+    const tr=document.createElement("tr");
+    if(r.feasible) tr.classList.add("feasible-row");
+    tr.innerHTML=`
+      <td>${amount.toFixed(1)}</td>
+      <td>${r.grassDM.toFixed(2)}</td>
+      <td>${r.totalDMI.toFixed(2)}</td>
+      <td>${r.dietCP.toFixed(1)}</td>
+      <td>${r.dietNDF.toFixed(1)}</td>
+      <td>€${r.cost.toFixed(2)}</td>
+      <td>€${r.costLow.toFixed(2)}–€${r.costHigh.toFixed(2)}</td>
+      <td><span class="pill ${r.feasible?"pass-pill":"warn-pill"}">${r.feasible?"Feasible":"Reformulate"}</span></td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  if(cheapest){
+    $("goodBestCost").className="feedback pass";
+    $("goodBestCost").textContent=
+      `Lowest purchased-feed cost among the tested feasible allowances: ${cheapest.amount.toFixed(0)} kg fresh concentrate/cow/day. At €${pricePerTonne.toFixed(0)}/t this costs about €${cheapest.r.cost.toFixed(2)}/cow/day. The remaining energy is supplied by high-quality grass.`;
   }else{
-    setFeedback("goodForageFeedback","warn",
-      `This setting misses both the 16% CP target and the 16 kg DMI check. Adjust the forage analysis or concentrate allowance.`);
+    $("goodBestCost").className="feedback warn";
+    $("goodBestCost").textContent=
+      "None of the 4–8 kg concentrate options meets both the 16% CP target and the 16 kg DMI check with the selected grass analysis. Reformulate rather than increasing concentrate automatically.";
   }
 }
 
-["goodGrassDMpct","goodGrassCPpct","goodGrassNDFpct","goodConcFresh"].forEach(id=>{
+function updateGoodForage(){
+  const grassDMpct=val("goodGrassDMpct");
+  const grassCPpct=val("goodGrassCPpct");
+  const grassNDFpct=val("goodGrassNDFpct");
+  const concNDFpct=val("goodConcNDFpct");
+  const pricePerTonne=val("goodConcPrice");
+  const concFresh=val("goodConcFresh");
+
+  const dmPctOk=Number.isFinite(grassDMpct) && grassDMpct>=15 && grassDMpct<=20;
+  const cpPctOk=Number.isFinite(grassCPpct) && grassCPpct>=15 && grassCPpct<=20;
+  const ndfPctOk=Number.isFinite(grassNDFpct) && grassNDFpct>=35 && grassNDFpct<=40;
+  const concNdfOk=Number.isFinite(concNDFpct) && concNDFpct>=15 && concNDFpct<=25;
+  const priceOk=Number.isFinite(pricePerTonne) && pricePerTonne>=340 && pricePerTonne<=380;
+  const concOk=Number.isFinite(concFresh) && concFresh>=4 && concFresh<=8;
+
+  mark("goodGrassDMpct","goodGrassDMpctFeedback",dmPctOk,"Within 15–20% DM range");
+  mark("goodGrassCPpct","goodGrassCPpctFeedback",cpPctOk,"Within 15–20% CP range");
+  mark("goodGrassNDFpct","goodGrassNDFpctFeedback",ndfPctOk,"Within 35–40% NDF range");
+  mark("goodConcNDFpct","goodConcNDFpctFeedback",concNdfOk,"Within 15–25% NDF range");
+  mark("goodConcPrice","goodConcPriceFeedback",priceOk,"Within €340–€380/t range");
+  mark("goodConcFresh","goodConcFreshFeedback",concOk,"Within 4–8 kg/day range");
+
+  if(!(dmPctOk && cpPctOk && ndfPctOk && concNdfOk && priceOk && concOk)){
+    ["goodMaintenanceME","goodMilkMEperL","goodTotalMEcalc","goodConcDM","goodConcME",
+     "goodGrassME","goodGrassDMkg","goodGrassFresh","goodTotalDMI","goodGrassNDFkg",
+     "goodConcNDFkg","goodDietCP","goodCPcheck","goodDietNDF","goodDMIcheck",
+     "goodConcCost","goodConcCostRange"].forEach(id=>$(id).textContent="—");
+    $("goodCostTable").querySelector("tbody").innerHTML="";
+    $("goodBestCost").className="feedback neutral";
+    $("goodBestCost").textContent="The lowest-cost feasible concentrate allowance will appear here.";
+    setFeedback("goodForageFeedback","fail",
+      "Use grass DM 15–20%, grass CP 15–20%, grass NDF 35–40%, concentrate NDF 15–25%, concentrate price €340–€380/t and concentrate allowance 4–8 kg/day.");
+    return;
+  }
+
+  const r=goodScenario(concFresh,grassDMpct,grassCPpct,grassNDFpct,concNDFpct,pricePerTonne);
+
+  $("goodMaintenanceME").textContent=`${r.maintenanceME.toFixed(1)} MJ/day`;
+  $("goodMilkMEperL").textContent=`${r.milkMEperL.toFixed(2)} MJ/L`;
+  $("goodTotalMEcalc").textContent=`${r.totalME.toFixed(1)} MJ/day`;
+  $("goodTotalMETarget").textContent=`${r.totalME.toFixed(1)} MJ/day`;
+  $("goodConcDM").textContent=`${r.concDM.toFixed(2)} kg/day`;
+  $("goodConcME").textContent=`${r.concME.toFixed(1)} MJ/day`;
+  $("goodGrassME").textContent=`${r.grassME.toFixed(1)} MJ/day`;
+  $("goodGrassDMkg").textContent=`${r.grassDM.toFixed(2)} kg/day`;
+  $("goodGrassFresh").textContent=`${r.grassFresh.toFixed(1)} kg/day`;
+  $("goodTotalDMI").textContent=`${r.totalDMI.toFixed(2)} kg/day`;
+  $("goodGrassNDFkg").textContent=`${r.grassNDFkg.toFixed(2)} kg/day`;
+  $("goodConcNDFkg").textContent=`${r.concNDFkg.toFixed(2)} kg/day`;
+  $("goodDietCP").textContent=`${r.dietCP.toFixed(1)}%`;
+  $("goodCPcheck").textContent=r.dietCP>=16?"Meets/exceeds target":"Below target";
+  $("goodDietNDF").textContent=`${r.dietNDF.toFixed(1)}%`;
+  $("goodDMIcheck").textContent=r.totalDMI<=16?"Within 16 kg":"Above 16 kg";
+  $("goodConcCost").textContent=`€${r.cost.toFixed(2)}/day`;
+  $("goodConcCostRange").textContent=`€${r.costLow.toFixed(2)}–€${r.costHigh.toFixed(2)}/day`;
+
+  renderGoodCostTable(grassDMpct,grassCPpct,grassNDFpct,concNDFpct,pricePerTonne);
+
+  if(r.feasible){
+    setFeedback("goodForageFeedback","pass",
+      `At q = 0.75 the extrapolated ME requirement is about ${r.totalME.toFixed(1)} MJ/day. With ${concFresh.toFixed(1)} kg fresh 16% concentrate and the selected high-quality grass, total DMI is ${r.totalDMI.toFixed(2)} kg/day, diet CP is ${r.dietCP.toFixed(1)}%, diet NDF is ${r.dietNDF.toFixed(1)}%, and purchased concentrate costs €${r.cost.toFixed(2)}/cow/day. Because good grass supplies the remaining energy, concentrate should not be increased unless the nutritional calculation requires it.`);
+  }else{
+    let reasons=[];
+    if(r.totalDMI>16) reasons.push(`DMI ${r.totalDMI.toFixed(2)} kg/day exceeds 16 kg`);
+    if(r.dietCP<16) reasons.push(`diet CP ${r.dietCP.toFixed(1)}% is below 16%`);
+    setFeedback("goodForageFeedback","warn",
+      `This setting needs reformulation: ${reasons.join("; ")}. Do not solve the problem simply by feeding more concentrate; use the grass analysis, energy requirement, protein balance and cost together.`);
+  }
+}
+["goodGrassDMpct","goodGrassCPpct","goodGrassNDFpct","goodConcNDFpct","goodConcPrice","goodConcFresh"].forEach(id=>{
   $(id).addEventListener("input",updateGoodForage);
 });
 

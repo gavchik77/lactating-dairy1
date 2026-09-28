@@ -1,4 +1,4 @@
-# Dairy Cow Ration Tutor v4
+# Dairy Cow Ration Tutor v5
 
 A GitHub Pages-ready guided teaching app based on the supplied dairy-cow ration example.
 
@@ -81,6 +81,15 @@ A second forage option has been added for comparison:
 - **35–40% NDF**
 - **q = 0.75**
 
+Standard dairy concentrate for the good-forage comparison:
+
+- **16% CP**
+- **13 MJ ME/kg DM**
+- **90% DM**
+- **15–25% NDF**
+- **€340–€380/tonne fresh**
+- practical allowance limited to **4–8 kg fresh/cow/day**
+
 Because DM and CP were supplied as ranges rather than single values, the app lets the student choose the exact values within those ranges.
 
 After the original worked exercise is completed, students can test a practical fresh-concentrate allowance between **4 and 8 kg/cow/day**. The app then calculates:
@@ -105,6 +114,33 @@ Because the original exercise tables stop at q = 0.7, the app estimates the q = 
 The dairy concentrate NDF value is still not supplied, so the app reports **NDF contributed by the grass** but does not claim a complete mixed-diet NDF percentage.
 
 With the default comparison values of **18% grass DM, 17.5% grass CP, 37.5% grass NDF and 8 kg fresh concentrate/day**, the good-forage option recalculates the cow's energy requirement at q = 0.75, then checks energy, total DMI and CP.
+
+
+## Cost is now part of the ration decision
+
+The good-forage comparison no longer assumes that the cow should receive the maximum concentrate allowance.
+
+For each selected grass analysis, the app compares **4, 5, 6, 7 and 8 kg fresh concentrate/cow/day** and calculates:
+
+- grass DM needed to meet the energy requirement;
+- total DMI;
+- diet CP;
+- whole-diet NDF using the selected 15–25% concentrate NDF value;
+- concentrate cost per cow per day at the selected €340–€380/t price;
+- the price-range cost at both €340/t and €380/t.
+
+The app then identifies the **lowest purchased-feed cost among the tested nutritionally feasible options**.
+
+“Feasible” in this comparison means:
+
+- total energy requirement is covered;
+- total DMI is no more than 16 kg/day;
+- diet CP is at least 16%;
+- concentrate remains within the 4–8 kg/day practical allowance.
+
+The app displays whole-diet NDF, but it does not impose an additional mixed-ration NDF cut-off because none was supplied for this dairy exercise.
+
+With the default good-grass analysis (18% DM, 17.5% CP, 37.5% NDF), concentrate NDF 20% and price €360/t, the 4 kg/day concentrate option is expected to be the lowest-cost feasible tested option. It uses the high-quality grass to provide most of the remaining energy rather than overfeeding concentrate.
 
 ## GitHub Pages
 

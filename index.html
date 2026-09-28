@@ -421,6 +421,10 @@
   <section class="card hidden" id="goodForageCard">
     <p class="stepno">Optional comparison · Better forage</p>
     <h2>What changes if high-quality grazed leafy ryegrass is available?</h2>
+    <p>
+      In this comparison, the cow is not automatically given the maximum concentrate.
+      The ration is recalculated with good grass first, and <strong>concentrate price becomes one of the decision factors</strong>.
+    </p>
 
     <p>
       Use the good-forage values supplied for this comparison:
@@ -430,6 +434,17 @@
       <strong>35–40% NDF</strong> and
       <strong>q = 0.75</strong>.
     </p>
+
+    <div class="practical-rules">
+      <h3>Standard dairy concentrate used for the comparison</h3>
+      <ul>
+        <li><strong>16% CP</strong> standard dairy ration.</li>
+        <li><strong>13 MJ ME/kg DM</strong> and <strong>90% DM</strong>.</li>
+        <li><strong>15–25% NDF</strong> — choose the value from the actual feed specification.</li>
+        <li><strong>€340–€380/tonne</strong> — choose the actual purchase price.</li>
+        <li>Keep the practical allowance within <strong>4–8 kg fresh/cow/day</strong>; do not automatically feed 8 kg if good forage can cover more of the requirement.</li>
+      </ul>
+    </div>
 
     <div class="practical-rules">
       <h3>Choose the actual grass analysis to test</h3>
@@ -451,6 +466,18 @@
           <input id="goodGrassNDFpct" type="number" min="35" max="40" step="0.1" value="37.5">
           <span class="field-feedback" id="goodGrassNDFpctFeedback"></span>
         </label>
+        <label>Dairy concentrate NDF (% DM)
+          <input id="goodConcNDFpct" type="number" min="15" max="25" step="0.1" value="20">
+          <span class="field-feedback" id="goodConcNDFpctFeedback"></span>
+        </label>
+        <label>Concentrate price (€/tonne fresh)
+          <input id="goodConcPrice" type="number" min="340" max="380" step="1" value="360">
+          <span class="field-feedback" id="goodConcPriceFeedback"></span>
+        </label>
+        <div class="live-box">
+          <span>Concentrate CP</span>
+          <strong>16% CP</strong>
+        </div>
       </div>
 
       <div class="live-results compact">
@@ -464,7 +491,8 @@
     <p>
       Instead of accepting the mathematical 11.1 kg/day concentrate result, choose a practical
       concentrate allowance between <strong>4 and 8 kg fresh/cow/day</strong>.
-      The app then calculates how much good grass is required to supply the remaining ME.
+      The app calculates how much good grass is required to supply the remaining ME, checks the resulting
+      CP and NDF, and calculates the purchased-feed cost.
     </p>
 
     <div class="question-grid">
@@ -485,7 +513,10 @@
       Concentrate ME = concentrate DM × 13<br>
       ME still required from grass = total ME target − concentrate ME<br>
       Grass DM required = remaining ME ÷ 11.5<br>
-      Fresh grass = grass DM ÷ grass DM fraction
+      Fresh grass = grass DM ÷ grass DM fraction<br>
+      Diet CP % = [(grass DM × grass CP) + (concentrate DM × 0.16)] ÷ total DMI × 100<br>
+      Diet NDF % = [(grass DM × grass NDF) + (concentrate DM × concentrate NDF)] ÷ total DMI × 100<br>
+      Concentrate cost/day = fresh concentrate × €/kg fresh
     </div>
 
     <div class="live-results compact">
@@ -499,17 +530,47 @@
       <div><span>Fresh grass required</span><strong id="goodGrassFresh">—</strong></div>
       <div><span>Total DMI</span><strong id="goodTotalDMI">—</strong></div>
       <div><span>NDF from grass</span><strong id="goodGrassNDFkg">—</strong></div>
+      <div><span>NDF from concentrate</span><strong id="goodConcNDFkg">—</strong></div>
     </div>
 
-    <h3>Check the resulting protein concentration</h3>
-    <div class="formula">
-      Diet CP % = [(grass DM × grass CP fraction) + (concentrate DM × 0.18)] ÷ total DMI × 100
-    </div>
+    <h3>Check nutrition and cost together</h3>
 
     <div class="live-results compact">
       <div><span>Diet CP</span><strong id="goodDietCP">—</strong></div>
       <div><span>16% CP target</span><strong id="goodCPcheck">—</strong></div>
+      <div><span>Diet NDF</span><strong id="goodDietNDF">—</strong></div>
       <div><span>16 kg DMI check</span><strong id="goodDMIcheck">—</strong></div>
+      <div><span>Concentrate cost/cow/day</span><strong id="goodConcCost">—</strong></div>
+      <div><span>Cost range at €340–380/t</span><strong id="goodConcCostRange">—</strong></div>
+    </div>
+
+    <h3>Compare practical concentrate allowances</h3>
+    <p class="small">
+      The table below compares 4–8 kg fresh concentrate/cow/day using the selected grass analysis,
+      concentrate NDF and concentrate price. “Feasible” here means the energy target is covered,
+      total DMI is no more than 16 kg/day, diet CP is at least 16%, and concentrate remains within the 4–8 kg practical range.
+      Whole-diet NDF is shown for interpretation but no additional diet-NDF cut-off is imposed.
+    </p>
+    <div class="table-wrap">
+      <table id="goodCostTable">
+        <thead>
+          <tr>
+            <th>Concentrate kg/day</th>
+            <th>Grass DM kg/day</th>
+            <th>Total DMI kg/day</th>
+            <th>Diet CP %</th>
+            <th>Diet NDF %</th>
+            <th>€/cow/day</th>
+            <th>Cost range €/day</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div id="goodBestCost" class="feedback neutral">
+      The lowest-cost feasible concentrate allowance will appear here.
     </div>
 
     <div id="goodForageFeedback" class="feedback neutral">
@@ -520,8 +581,9 @@
       This optional comparison now uses the teacher-supplied <strong>q = 0.75</strong> and
       <strong>35–40% NDF</strong> range for the leafy ryegrass. The original source tables stop at q = 0.7,
       so the q = 0.75 maintenance and lactation values are calculated by simple linear extrapolation from
-      the q = 0.6 and q = 0.7 rows. The concentrate NDF value is still not supplied, so the app reports
-      NDF contributed by the grass but does not claim a complete mixed-diet NDF percentage.
+      the q = 0.6 and q = 0.7 rows. The standard 16% dairy concentrate can now be assigned its actual
+      <strong>15–25% NDF</strong> value and <strong>€340–€380/t</strong> purchase price, allowing the app
+      to calculate whole-diet NDF and compare purchased-feed cost.
     </p>
   </section>
 

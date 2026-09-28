@@ -91,3 +91,8 @@ select:focus{
 @media(max-width:560px){
   #goodForageCard .live-results{grid-template-columns:1fr}
 }
+
+.feasible-row{background:#f3faf4}
+.pill{display:inline-block;padding:3px 8px;border-radius:999px;font-size:.75rem;font-weight:800}
+.pass-pill{background:var(--green-bg);color:#1d6a3d}
+.warn-pill{background:var(--amber-bg);color:var(--amber)}
