@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dairy Cow Ration Tutor</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">Guided dairy nutrition worksheet</p>
+    <h1>Dairy Cow Ration Tutor</h1>
+    <p>Work through the ration in the same order as the worked example. Each section checks your answer as soon as you type it.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="card task-sheet">
+    <p class="stepno">Dairy cow example</p>
+    <h2>Propose a ration to cover the cow's needs</h2>
+
+    <p>
+      A group of <strong>550 kg dairy cows</strong> are required to produce
+      <strong>25 L of milk/day</strong> containing <strong>45 g/kg fat (4.5%)</strong>
+      and <strong>34 g/kg protein (3.4%)</strong>.
+    </p>
+
+    <p>The ration consists of:</p>
+    <ul class="feed-list">
+      <li>
+        <strong>Grass silage:</strong> 250 g/kg DM (25% DM),
+        ME 11 MJ/kg DM, CP 12%, ration quality q = 0.5.
+      </li>
+      <li>
+        <strong>Dairy concentrate:</strong> 900 g/kg DM (90% DM),
+        ME 13.0 MJ/kg DM, CP 18%, ration quality q = 0.7.
+      </li>
+    </ul>
+
+    <p>
+      It is anticipated that the cow will consume <strong>16.0 kg/day DM</strong>.
+      Propose the ration to cover the cow's needs.
+    </p>
+
+    <div class="task-questions">
+      <h3>Your calculation should determine</h3>
+      <ol>
+        <li>The target dietary CP and the proportion of silage and concentrate.</li>
+        <li>The quality (<em>q</em>) of the mixed ration.</li>
+        <li>Maintenance ME requirement.</li>
+        <li>ME required for 25 L of milk at 4.5% fat and 3.4% protein.</li>
+        <li>Total ME required per day.</li>
+        <li>ME to be supplied by silage and concentrate.</li>
+        <li>Dry matter intake from each feed and total DMI.</li>
+        <li>Fresh/as-fed kilograms of silage and concentrate per cow per day.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="card">
+    <p class="stepno">Reference tables</p>
+    <h2>Use these tables during the exercise</h2>
+
+    <h3>Table 1. Maintenance energy requirement (MJ ME/day)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Live weight (kg)</th><th>q = 0.5</th><th>q = 0.6</th><th>q = 0.7</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>500</td><td>52</td><td>54</td><td>57</td></tr>
+          <tr class="target-row"><td><strong>550</strong></td><td><strong>55</strong></td><td><strong>58</strong></td><td><strong>61</strong></td></tr>
+          <tr><td>600</td><td>59</td><td>62</td><td>65</td></tr>
+          <tr><td>650</td><td>62</td><td>65</td><td>69</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Table 2. Additional energy required for lactation, MJ ME per 1 L</h3>
+    <p class="small">The milk in this problem is 4.5% fat and 3.4% protein.</p>
+
+    <div class="two-tables">
+      <div>
+        <h4>Ration quality q = 0.6</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Milk fat %</th><th>2.8% protein</th><th>3.0%</th><th>3.2%</th><th>3.4%</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>3.0</td><td>4.32</td><td>4.39</td><td>4.47</td><td>4.54</td></tr>
+              <tr><td>3.5</td><td>4.64</td><td>4.71</td><td>4.79</td><td>4.86</td></tr>
+              <tr><td>4.0</td><td>4.96</td><td>5.03</td><td>5.11</td><td>5.18</td></tr>
+              <tr class="target-row"><td><strong>4.5</strong></td><td>5.28</td><td>5.35</td><td>5.43</td><td><strong>5.50</strong></td></tr>
+              <tr><td>5.0</td><td>5.60</td><td>5.67</td><td>5.75</td><td>5.82</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <h4>Ration quality q = 0.7</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Milk fat %</th><th>2.8% protein</th><th>3.0%</th><th>3.2%</th><th>3.4%</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>3.0</td><td>4.09</td><td>4.16</td><td>4.23</td><td>4.30</td></tr>
+              <tr><td>3.5</td><td>4.40</td><td>4.47</td><td>4.54</td><td>4.61</td></tr>
+              <tr><td>4.0</td><td>4.70</td><td>4.77</td><td>4.84</td><td>4.91</td></tr>
+              <tr class="target-row"><td><strong>4.5</strong></td><td>5.00</td><td>5.07</td><td>5.14</td><td><strong>5.21</strong></td></tr>
+              <tr><td>5.0</td><td>5.30</td><td>5.38</td><td>5.45</td><td>5.52</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <h3>Table 3. Energy required for body-weight change, MJ ME/day</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Ration q</th><th>-1.0 kg/day</th><th>-0.5 kg/day</th><th>+0.5 kg/day</th><th>+1.0 kg/day</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>0.5</td><td>-23.3</td><td>-11.6</td><td>19.4</td><td>38.8</td></tr>
+          <tr><td>0.6</td><td>-22.0</td><td>-11.0</td><td>18.3</td><td>36.7</td></tr>
+          <tr><td>0.7</td><td>-20.8</td><td>-10.4</td><td>17.4</td><td>34.7</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small">No liveweight change is specified in this example, so the supplied worked solution assumes the body-weight-change term is 0.</p>
+  </section>
+
+  <section class="card" id="firstStepCard">
+    <p class="stepno">Question 1</p>
+    <h2>What is your first step?</h2>
+    <div class="choices">
+      <button data-first="milk">Calculate milk energy first</button>
+      <button data-first="cp">Choose the dietary CP target and balance silage with concentrate</button>
+      <button data-first="fresh">Convert the feeds to fresh weight</button>
+      <button data-first="maintenance">Read maintenance ME first</button>
+    </div>
+    <div id="firstFeedback" class="feedback neutral">Choose one answer.</div>
+  </section>
+
+  <section class="card hidden" id="step1">
+    <p class="stepno">Step 1 · Protein</p>
+    <h2>Select the CP target, then balance the two feeds</h2>
+
+    <p>
+      The supplied worked example states that a lactating cow requires about
+      <strong>15–17% CP</strong> and uses <strong>16% CP</strong> for this cow.
+    </p>
+
+    <div class="question-grid three">
+      <label>Target dietary CP (%)
+        <input id="targetCP" type="number" step="0.1">
+        <span class="field-feedback" id="targetCPFeedback"></span>
+      </label>
+      <label>Silage proportion of diet DM (%)
+        <input id="silagePct" type="number" step="0.1">
+        <span class="field-feedback" id="silagePctFeedback"></span>
+      </label>
+      <label>Concentrate proportion of diet DM (%)
+        <input id="concPct" type="number" step="0.1">
+        <span class="field-feedback" id="concPctFeedback"></span>
+      </label>
+    </div>
+
+    <div class="formula">
+      12(1 − x) + 18x = target CP, where x = concentrate fraction
+    </div>
+
+    <div id="proteinFeedback" class="feedback neutral">Enter the target CP and the two DM proportions.</div>
+  </section>
+
+  <section class="card hidden" id="step2">
+    <p class="stepno">Step 2 · Ration quality</p>
+    <h2>Calculate the q value of the mixed ration</h2>
+
+    <div class="formula">
+      q of ration = (silage fraction × 0.5) + (concentrate fraction × 0.7)
+    </div>
+
+    <div class="question-grid">
+      <label>Weighted q from your feed proportions
+        <input id="weightedQ" type="number" step="0.001">
+        <span class="field-feedback" id="weightedQFeedback"></span>
+      </label>
+      <label>q used for the worked table interpolation
+        <input id="tableQ" type="number" step="0.01">
+        <span class="field-feedback" id="tableQFeedback"></span>
+      </label>
+    </div>
+
+    <div id="qFeedback" class="feedback neutral">
+      Calculate the weighted q first. The supplied worked example then uses approximately q = 0.65 for interpolation.
+    </div>
+  </section>
+
+  <section class="card hidden" id="step3">
+    <p class="stepno">Step 3 · Maintenance energy</p>
+    <h2>Calculate maintenance ME for a 550 kg cow</h2>
+
+    <p>At 550 kg, Table 1 gives 58 MJ/day at q = 0.6 and 61 MJ/day at q = 0.7.</p>
+
+    <div class="formula">
+      At q ≈ 0.65, use the midpoint between 58 and 61 MJ/day
+    </div>
+
+    <div class="question-grid">
+      <label>Maintenance ME (MJ/day)
+        <input id="maintenanceME" type="number" step="0.1">
+        <span class="field-feedback" id="maintenanceMEFeedback"></span>
+      </label>
+      <label>Body-weight-change ME (MJ/day)
+        <input id="weightChangeME" type="number" step="0.1">
+        <span class="field-feedback" id="weightChangeMEFeedback"></span>
+      </label>
+    </div>
+
+    <div id="maintenanceFeedback" class="feedback neutral">
+      No liveweight change is specified in the problem.
+    </div>
+  </section>
+
+  <section class="card hidden" id="step4">
+    <p class="stepno">Step 4 · Milk production energy</p>
+    <h2>Calculate the ME required for 25 L of milk</h2>
+
+    <p>
+      For milk containing 4.5% fat and 3.4% protein, Table 2 gives:
+      <strong>5.50 MJ/L at q = 0.6</strong> and
+      <strong>5.21 MJ/L at q = 0.7</strong>.
+    </p>
+
+    <div class="formula">
+      At q ≈ 0.65: ME per L ≈ midpoint of 5.50 and 5.21<br>
+      Milk ME/day = ME per L × 25 L
+    </div>
+
+    <div class="question-grid">
+      <label>ME required per litre (MJ/L)
+        <input id="milkMEperL" type="number" step="0.01">
+        <span class="field-feedback" id="milkMEperLFeedback"></span>
+      </label>
+      <label>ME required for 25 L (MJ/day)
+        <input id="milkMEday" type="number" step="0.1">
+        <span class="field-feedback" id="milkMEdayFeedback"></span>
+      </label>
+    </div>
+
+    <div id="milkFeedback" class="feedback neutral">Use the table values and the cow's 25 L/day milk yield.</div>
+  </section>
+
+  <section class="card hidden" id="step5">
+    <p class="stepno">Step 5 · Total daily energy</p>
+    <h2>Add maintenance, milk production and body-weight change</h2>
+
+    <div class="formula">
+      Total ME = maintenance ME + milk ME + body-weight-change ME
+    </div>
+
+    <div class="question-grid">
+      <label>Total ME required (MJ/day)
+        <input id="totalME" type="number" step="0.1">
+        <span class="field-feedback" id="totalMEFeedback"></span>
+      </label>
+      <div class="live-box">
+        <span>Worked-example target</span>
+        <strong>about 193.5 MJ/day</strong>
+      </div>
+    </div>
+
+    <div id="totalMEFeedbackBox" class="feedback neutral">Add the three daily energy terms.</div>
+  </section>
+
+  <section class="card hidden" id="step6">
+    <p class="stepno">Step 6 · Divide the total ME between the feeds</p>
+    <h2>Use the Step 1 ration proportions</h2>
+
+    <div class="formula">
+      Silage ME = total ME × silage fraction<br>
+      Concentrate ME = total ME × concentrate fraction
+    </div>
+
+    <div class="question-grid">
+      <label>ME from silage (MJ/day)
+        <input id="silageME" type="number" step="0.1">
+        <span class="field-feedback" id="silageMEFeedback"></span>
+      </label>
+      <label>ME from concentrate (MJ/day)
+        <input id="concME" type="number" step="0.1">
+        <span class="field-feedback" id="concMEFeedback"></span>
+      </label>
+    </div>
+
+    <div id="feedMEFeedback" class="feedback neutral">The two energy contributions should add back to the total ME requirement.</div>
+  </section>
+
+  <section class="card hidden" id="step7">
+    <p class="stepno">Step 7 · Dry matter eaten</p>
+    <h2>Convert each feed's ME contribution to kg DM</h2>
+
+    <div class="formula">
+      Silage DM = silage ME ÷ 11 MJ/kg DM<br>
+      Concentrate DM = concentrate ME ÷ 13 MJ/kg DM
+    </div>
+
+    <div class="question-grid three">
+      <label>Silage DM (kg/day)
+        <input id="silageDM" type="number" step="0.1">
+        <span class="field-feedback" id="silageDMFeedback"></span>
+      </label>
+      <label>Concentrate DM (kg/day)
+        <input id="concDM" type="number" step="0.1">
+        <span class="field-feedback" id="concDMFeedback"></span>
+      </label>
+      <label>Total DMI (kg/day)
+        <input id="totalDMI" type="number" step="0.1">
+        <span class="field-feedback" id="totalDMIFeedback"></span>
+      </label>
+    </div>
+
+    <div class="live-results compact">
+      <div><span>Anticipated maximum</span><strong>16.0 kg DM/day</strong></div>
+      <div><span>DMI interpretation</span><strong id="dmiVerdict">—</strong></div>
+      <div><span>Difference from 16 kg</span><strong id="dmiDifference">—</strong></div>
+    </div>
+
+    <div id="dmiFeedback" class="feedback neutral">Check whether the calculated ration fits within the anticipated 16 kg DM intake.</div>
+  </section>
+
+  <section class="card hidden" id="step8">
+    <p class="stepno">Step 8 · Fresh/as-fed amounts</p>
+    <h2>How much feed will the cow actually receive?</h2>
+
+    <div class="formula">
+      Fresh silage = silage DM ÷ 0.25<br>
+      Fresh concentrate = concentrate DM ÷ 0.90
+    </div>
+
+    <div class="question-grid">
+      <label>Fresh silage (kg/cow/day)
+        <input id="silageFresh" type="number" step="0.1">
+        <span class="field-feedback" id="silageFreshFeedback"></span>
+      </label>
+      <label>Fresh concentrate (kg/cow/day)
+        <input id="concFresh" type="number" step="0.1">
+        <span class="field-feedback" id="concFreshFeedback"></span>
+      </label>
+    </div>
+
+    <div id="freshFeedback" class="feedback neutral">Convert from DM to as-fed weight.</div>
+  </section>
+
+  <section class="card hidden" id="step9">
+    <p class="stepno">Step 9 · Practical feeding check</p>
+    <h2>Does the mathematically correct ration also follow practical dairy-feeding rules?</h2>
+
+    <div class="practical-rules">
+      <h3>Rules to keep in mind</h3>
+      <ul>
+        <li><strong>Dairy concentrate:</strong> use a high-energy, balanced dairy nut or meal containing about <strong>14–18% CP</strong>.</li>
+        <li><strong>With average-to-poor grass silage:</strong> a <strong>16–18% CP</strong> concentrate is appropriate.</li>
+        <li><strong>Minerals and vitamins:</strong> the concentrate should contain a balanced premix, including calcium, phosphorus, magnesium and vitamins A, D and E.</li>
+        <li><strong>Early lactation:</strong> a practical concentrate allowance is commonly about <strong>4–8 kg/cow/day</strong>, with roughly <strong>7–8 kg/day</strong> treated here as an upper teaching benchmark to reduce digestive upset and forage substitution.</li>
+        <li><strong>Mid-to-late lactation:</strong> concentrate allowance is normally reduced as milk yield falls and forage supplies more of the requirement.</li>
+      </ul>
+    </div>
+
+    <p>
+      Your calculated fresh concentrate allowance is shown below. This step asks you to distinguish a
+      <strong>mathematical solution</strong> from a <strong>practically acceptable feeding recommendation</strong>.
+    </p>
+
+    <div class="live-results compact">
+      <div><span>Calculated concentrate</span><strong id="practicalConcAmount">11.1 kg/day</strong></div>
+      <div><span>Teaching benchmark</span><strong>4–8 kg/day</strong></div>
+      <div><span>Concentrate CP</span><strong>18% CP</strong></div>
+    </div>
+
+    <div class="question-grid">
+      <label>Is 18% CP concentrate suitable for average-to-poor silage?
+        <select id="cpPractical">
+          <option value="">Choose...</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+        <span class="field-feedback" id="cpPracticalFeedback"></span>
+      </label>
+
+      <label>Does 11.1 kg concentrate exceed the 7–8 kg/day teaching benchmark?
+        <select id="amountPractical">
+          <option value="">Choose...</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+        <span class="field-feedback" id="amountPracticalFeedback"></span>
+      </label>
+    </div>
+
+    <div id="practicalFeedback" class="feedback neutral">
+      A ration can satisfy the arithmetic and still require reformulation before use on farm.
+    </div>
+
+    <p class="small">
+      The exercise does not provide the concentrate's mineral specification, so mineral and vitamin adequacy cannot be verified from the supplied data.
+      Do not simply cap concentrate at 8 kg without recalculating the whole ration: the energy and protein balance would change.
+    </p>
+
+    <div class="actions">
+      <button id="tryGoodForage" class="secondary">Try high-quality grazed leafy ryegrass</button>
+    </div>
+  </section>
+
+  <section class="card hidden" id="goodForageCard">
+    <p class="stepno">Optional comparison · Better forage</p>
+    <h2>What changes if high-quality grazed leafy ryegrass is available?</h2>
+
+    <p>
+      Use the good-forage values supplied for this comparison:
+      <strong>11.5 MJ ME/kg DM</strong>,
+      <strong>15–20% DM</strong>,
+      <strong>15–20% CP</strong>,
+      <strong>35–40% NDF</strong> and
+      <strong>q = 0.75</strong>.
+    </p>
+
+    <div class="practical-rules">
+      <h3>Choose the actual grass analysis to test</h3>
+      <p class="small">
+        The ME value is fixed at 11.5 MJ/kg DM. DM and CP are ranges, so select the values you want to use.
+        The app will recalculate immediately.
+      </p>
+
+      <div class="question-grid three">
+        <label>Leafy ryegrass DM (%)
+          <input id="goodGrassDMpct" type="number" min="15" max="20" step="0.1" value="18">
+          <span class="field-feedback" id="goodGrassDMpctFeedback"></span>
+        </label>
+        <label>Leafy ryegrass CP (% DM)
+          <input id="goodGrassCPpct" type="number" min="15" max="20" step="0.1" value="17.5">
+          <span class="field-feedback" id="goodGrassCPpctFeedback"></span>
+        </label>
+        <label>Leafy ryegrass NDF (% DM)
+          <input id="goodGrassNDFpct" type="number" min="35" max="40" step="0.1" value="37.5">
+          <span class="field-feedback" id="goodGrassNDFpctFeedback"></span>
+        </label>
+      </div>
+
+      <div class="live-results compact">
+        <div><span>Good-forage q</span><strong>0.75</strong></div>
+        <div><span>ME</span><strong>11.5 MJ/kg DM</strong></div>
+        <div><span>NDF range</span><strong>35–40% DM</strong></div>
+      </div>
+    </div>
+
+    <h3>Test a practical concentrate allowance</h3>
+    <p>
+      Instead of accepting the mathematical 11.1 kg/day concentrate result, choose a practical
+      concentrate allowance between <strong>4 and 8 kg fresh/cow/day</strong>.
+      The app then calculates how much good grass is required to supply the remaining ME.
+    </p>
+
+    <div class="question-grid">
+      <label>Fresh dairy concentrate (kg/cow/day)
+        <input id="goodConcFresh" type="number" min="4" max="8" step="0.1" value="8">
+        <span class="field-feedback" id="goodConcFreshFeedback"></span>
+      </label>
+      <div class="live-box">
+        <span>ME target at q = 0.75</span>
+        <strong id="goodTotalMETarget">189.1 MJ/day</strong>
+      </div>
+    </div>
+
+    <div class="formula">
+      At q = 0.75, maintenance ME is extrapolated from the supplied q = 0.6 and 0.7 table values.<br>
+      At q = 0.75, milk ME/L is extrapolated from the supplied q = 0.6 and 0.7 table values.<br>
+      Concentrate DM = fresh concentrate × 0.90<br>
+      Concentrate ME = concentrate DM × 13<br>
+      ME still required from grass = total ME target − concentrate ME<br>
+      Grass DM required = remaining ME ÷ 11.5<br>
+      Fresh grass = grass DM ÷ grass DM fraction
+    </div>
+
+    <div class="live-results compact">
+      <div><span>Maintenance ME at q 0.75</span><strong id="goodMaintenanceME">—</strong></div>
+      <div><span>Milk ME/L at q 0.75</span><strong id="goodMilkMEperL">—</strong></div>
+      <div><span>Total ME target</span><strong id="goodTotalMEcalc">—</strong></div>
+      <div><span>Concentrate DM</span><strong id="goodConcDM">—</strong></div>
+      <div><span>ME from concentrate</span><strong id="goodConcME">—</strong></div>
+      <div><span>ME needed from grass</span><strong id="goodGrassME">—</strong></div>
+      <div><span>Grass DM required</span><strong id="goodGrassDMkg">—</strong></div>
+      <div><span>Fresh grass required</span><strong id="goodGrassFresh">—</strong></div>
+      <div><span>Total DMI</span><strong id="goodTotalDMI">—</strong></div>
+      <div><span>NDF from grass</span><strong id="goodGrassNDFkg">—</strong></div>
+    </div>
+
+    <h3>Check the resulting protein concentration</h3>
+    <div class="formula">
+      Diet CP % = [(grass DM × grass CP fraction) + (concentrate DM × 0.18)] ÷ total DMI × 100
+    </div>
+
+    <div class="live-results compact">
+      <div><span>Diet CP</span><strong id="goodDietCP">—</strong></div>
+      <div><span>16% CP target</span><strong id="goodCPcheck">—</strong></div>
+      <div><span>16 kg DMI check</span><strong id="goodDMIcheck">—</strong></div>
+    </div>
+
+    <div id="goodForageFeedback" class="feedback neutral">
+      Adjust the grass DM, grass CP or concentrate allowance to see how forage quality changes the ration.
+    </div>
+
+    <p class="small">
+      This optional comparison now uses the teacher-supplied <strong>q = 0.75</strong> and
+      <strong>35–40% NDF</strong> range for the leafy ryegrass. The original source tables stop at q = 0.7,
+      so the q = 0.75 maintenance and lactation values are calculated by simple linear extrapolation from
+      the q = 0.6 and q = 0.7 rows. The concentrate NDF value is still not supplied, so the app reports
+      NDF contributed by the grass but does not claim a complete mixed-diet NDF percentage.
+    </p>
+  </section>
+
+  <section class="card hidden" id="finalCard">
+    <p class="stepno">Completed exercise</p>
+    <h2>Worked-example result</h2>
+    <div class="summary-grid" id="summaryGrid"></div>
+    <p>
+      The supplied worked example calculates approximately
+      <strong>23.2 kg fresh grass silage</strong> and
+      <strong>11.1 kg fresh dairy concentrate per cow per day</strong>.
+      The practical-feeding check then asks whether that calculated concentrate allowance is acceptable.
+    </p>
+    <p class="small">
+      Note: the handwritten solution uses rounded proportions (33% and 67%) and treats the ration quality as approximately q = 0.65, so small differences caused by rounding are acceptable.
+      The optional high-quality ryegrass comparison is a separate teaching scenario using the additional forage values supplied later.
+    </p>
+    <div class="actions">
+      <button id="restart">Start again</button>
+    </div>
+  </section>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
