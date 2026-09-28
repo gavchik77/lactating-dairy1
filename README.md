@@ -1,4 +1,4 @@
-# Dairy Cow Ration Tutor v6
+# Dairy Cow Ration Tutor v7
 
 A GitHub Pages-ready guided teaching app based on the supplied dairy-cow ration example.
 
@@ -146,6 +146,23 @@ With the default good-grass analysis (18% DM, 17.5% CP, 37.5% NDF), concentrate 
 ## Full calculation sequence in the good-forage option
 
 The high-quality-grass comparison now explicitly shows: **total ME required/day → ME supplied by forage and concentrate → DM intake from each feed and total DMI → fresh/as-fed kg of each feed → CP, NDF and cost**. These stages appear before the 4–8 kg concentrate comparison table so students see the full calculation, not only the optimisation result.
+
+
+## High-quality forage calculation now auto-runs
+
+The good-forage comparison is now accessible directly from the top of the page. It no longer depends on completing the poor-silage exercise first.
+
+Default values are calculated immediately on page load, even while the alternative card is hidden. When students open the high-quality-grass section they should already see:
+
+- total ME required/day;
+- ME from concentrate and ME required from forage;
+- forage DM, concentrate DM and total DMI;
+- fresh/as-fed forage and concentrate;
+- diet CP and NDF;
+- concentrate cost;
+- the 4–8 kg/day cost comparison table.
+
+Changing any input updates the whole section immediately. A **Recalculate now** button is also included as a manual fallback.
 
 ## GitHub Pages
 

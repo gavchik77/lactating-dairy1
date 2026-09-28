@@ -135,6 +135,18 @@
     <p class="small">No liveweight change is specified in this example, so the supplied worked solution assumes the body-weight-change term is 0.</p>
   </section>
 
+  <section class="card alternative-card">
+    <p class="stepno">Alternative scenario</p>
+    <h2>High-quality grazed leafy ryegrass</h2>
+    <p>
+      You can open the good-forage comparison directly without completing the poor-silage worked example first.
+      The calculation will populate automatically using the default grass analysis, concentrate NDF, price and allowance.
+    </p>
+    <div class="actions">
+      <button id="openGoodForage">Open high-quality grass calculation</button>
+    </div>
+  </section>
+
   <section class="card" id="firstStepCard">
     <p class="stepno">Question 1</p>
     <h2>What is your first step?</h2>
@@ -426,6 +438,10 @@
       The ration is recalculated with good grass first, and <strong>concentrate price becomes one of the decision factors</strong>.
     </p>
 
+    <div class="feedback pass" id="goodAutoStatus">
+      This section calculates automatically. Change any green-forage or concentrate value below and all ME, DMI, fresh-weight, NDF and cost results will update immediately.
+    </div>
+
     <p>
       Use the good-forage values supplied for this comparison:
       <strong>11.5 MJ ME/kg DM</strong>,
@@ -502,6 +518,10 @@
         <span>Good-forage q</span>
         <strong>0.75</strong>
       </div>
+    </div>
+
+    <div class="actions">
+      <button id="recalculateGoodForage" class="secondary">Recalculate now</button>
     </div>
 
     <div class="calc-stage">

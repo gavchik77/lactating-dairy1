@@ -303,6 +303,12 @@ $("tryGoodForage").addEventListener("click",()=>{
   $("goodForageCard").scrollIntoView({behavior:"smooth",block:"start"});
 });
 
+$("openGoodForage").addEventListener("click",()=>{
+  show("goodForageCard");
+  updateGoodForage();
+  $("goodForageCard").scrollIntoView({behavior:"smooth",block:"start"});
+});
+
 function goodScenario(concFresh, grassDMpct, grassCPpct, grassNDFpct, concNDFpct, pricePerTonne){
   const q=0.75;
 
@@ -447,7 +453,7 @@ function updateGoodForage(){
 
   if(r.feasible){
     setFeedback("goodForageFeedback","pass",
-      `At q = 0.75 the extrapolated ME requirement is about ${r.totalME.toFixed(1)} MJ/day. With ${concFresh.toFixed(1)} kg fresh 16% concentrate and the selected high-quality grass, total DMI is ${r.totalDMI.toFixed(2)} kg/day, diet CP is ${r.dietCP.toFixed(1)}%, diet NDF is ${r.dietNDF.toFixed(1)}%, and purchased concentrate costs €${r.cost.toFixed(2)}/cow/day. Because good grass supplies the remaining energy, concentrate should not be increased unless the nutritional calculation requires it.`);
+      `Calculated automatically: total ME ${r.totalME.toFixed(1)} MJ/day; forage ME ${r.grassME.toFixed(1)} MJ/day; concentrate ME ${r.concME.toFixed(1)} MJ/day; forage DM ${r.grassDM.toFixed(2)} kg/day; concentrate DM ${r.concDM.toFixed(2)} kg/day; total DMI ${r.totalDMI.toFixed(2)} kg/day; fresh forage ${r.grassFresh.toFixed(1)} kg/day; fresh concentrate ${concFresh.toFixed(1)} kg/day; diet CP ${r.dietCP.toFixed(1)}%; diet NDF ${r.dietNDF.toFixed(1)}%; concentrate cost €${r.cost.toFixed(2)}/cow/day.`);
   }else{
     let reasons=[];
     if(r.totalDMI>16) reasons.push(`DMI ${r.totalDMI.toFixed(2)} kg/day exceeds 16 kg`);
@@ -459,6 +465,16 @@ function updateGoodForage(){
 ["goodGrassDMpct","goodGrassCPpct","goodGrassNDFpct","goodConcNDFpct","goodConcPrice","goodConcFresh"].forEach(id=>{
   $(id).addEventListener("input",updateGoodForage);
 });
+
+["goodGrassDMpct","goodGrassCPpct","goodGrassNDFpct","goodConcNDFpct","goodConcPrice","goodConcFresh"].forEach(id=>{
+  $(id).addEventListener("change",updateGoodForage);
+});
+
+$("recalculateGoodForage").addEventListener("click",updateGoodForage);
+
+// Pre-calculate the alternative ration from the default values even while the card is hidden.
+// When the student opens it, the numbers are already present.
+updateGoodForage();
 
 function renderSummary(){
   $("summaryGrid").innerHTML=`
