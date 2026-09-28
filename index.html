@@ -489,10 +489,8 @@
 
     <h3>Test a practical concentrate allowance</h3>
     <p>
-      Instead of accepting the mathematical 11.1 kg/day concentrate result, choose a practical
-      concentrate allowance between <strong>4 and 8 kg fresh/cow/day</strong>.
-      The app calculates how much good grass is required to supply the remaining ME, checks the resulting
-      CP and NDF, and calculates the purchased-feed cost.
+      Choose a practical concentrate allowance between <strong>4 and 8 kg fresh/cow/day</strong>.
+      The app then works through the ration in the same sequence as the original exercise.
     </p>
 
     <div class="question-grid">
@@ -501,47 +499,92 @@
         <span class="field-feedback" id="goodConcFreshFeedback"></span>
       </label>
       <div class="live-box">
-        <span>ME target at q = 0.75</span>
-        <strong id="goodTotalMETarget">189.1 MJ/day</strong>
+        <span>Good-forage q</span>
+        <strong>0.75</strong>
       </div>
     </div>
 
-    <div class="formula">
-      At q = 0.75, maintenance ME is extrapolated from the supplied q = 0.6 and 0.7 table values.<br>
-      At q = 0.75, milk ME/L is extrapolated from the supplied q = 0.6 and 0.7 table values.<br>
-      Concentrate DM = fresh concentrate × 0.90<br>
-      Concentrate ME = concentrate DM × 13<br>
-      ME still required from grass = total ME target − concentrate ME<br>
-      Grass DM required = remaining ME ÷ 11.5<br>
-      Fresh grass = grass DM ÷ grass DM fraction<br>
-      Diet CP % = [(grass DM × grass CP) + (concentrate DM × 0.16)] ÷ total DMI × 100<br>
-      Diet NDF % = [(grass DM × grass NDF) + (concentrate DM × concentrate NDF)] ÷ total DMI × 100<br>
-      Concentrate cost/day = fresh concentrate × €/kg fresh
+    <div class="calc-stage">
+      <p class="stepno">Good forage · Calculation 1</p>
+      <h3>Total ME required per cow per day</h3>
+      <div class="formula">
+        Maintenance ME at q = 0.75<br>
+        + Milk ME/L at q = 0.75 × 25 L<br>
+        + Body-weight-change ME (0 in this example)<br>
+        = Total ME required/day
+      </div>
+      <div class="live-results compact">
+        <div><span>Maintenance ME</span><strong id="goodMaintenanceME">—</strong></div>
+        <div><span>Milk ME/L</span><strong id="goodMilkMEperL">—</strong></div>
+        <div><span>Milk ME/day</span><strong id="goodMilkMEday">—</strong></div>
+        <div><span>Body-weight change</span><strong>0 MJ/day</strong></div>
+        <div><span>Total ME required/day</span><strong id="goodTotalMEcalc">—</strong></div>
+      </div>
     </div>
 
-    <div class="live-results compact">
-      <div><span>Maintenance ME at q 0.75</span><strong id="goodMaintenanceME">—</strong></div>
-      <div><span>Milk ME/L at q 0.75</span><strong id="goodMilkMEperL">—</strong></div>
-      <div><span>Total ME target</span><strong id="goodTotalMEcalc">—</strong></div>
-      <div><span>Concentrate DM</span><strong id="goodConcDM">—</strong></div>
-      <div><span>ME from concentrate</span><strong id="goodConcME">—</strong></div>
-      <div><span>ME needed from grass</span><strong id="goodGrassME">—</strong></div>
-      <div><span>Grass DM required</span><strong id="goodGrassDMkg">—</strong></div>
-      <div><span>Fresh grass required</span><strong id="goodGrassFresh">—</strong></div>
-      <div><span>Total DMI</span><strong id="goodTotalDMI">—</strong></div>
-      <div><span>NDF from grass</span><strong id="goodGrassNDFkg">—</strong></div>
-      <div><span>NDF from concentrate</span><strong id="goodConcNDFkg">—</strong></div>
+    <div class="calc-stage">
+      <p class="stepno">Good forage · Calculation 2</p>
+      <h3>ME to be supplied by forage and concentrate</h3>
+      <div class="formula">
+        Concentrate DM = fresh concentrate × 0.90<br>
+        Concentrate ME = concentrate DM × 13 MJ/kg DM<br>
+        Forage ME required = total ME required − concentrate ME
+      </div>
+      <div class="live-results compact">
+        <div><span>Concentrate DM</span><strong id="goodConcDM">—</strong></div>
+        <div><span>ME from concentrate</span><strong id="goodConcME">—</strong></div>
+        <div><span>ME required from forage</span><strong id="goodGrassME">—</strong></div>
+        <div><span>Total ME check</span><strong id="goodMESumCheck">—</strong></div>
+      </div>
     </div>
 
-    <h3>Check nutrition and cost together</h3>
+    <div class="calc-stage">
+      <p class="stepno">Good forage · Calculation 3</p>
+      <h3>Dry matter intake from each feed and total DMI</h3>
+      <div class="formula">
+        Forage DM = forage ME required ÷ 11.5 MJ/kg DM<br>
+        Concentrate DM = concentrate ME ÷ 13 MJ/kg DM<br>
+        Total DMI = forage DM + concentrate DM
+      </div>
+      <div class="live-results compact">
+        <div><span>Forage DM</span><strong id="goodGrassDMkg">—</strong></div>
+        <div><span>Concentrate DM</span><strong id="goodConcDM2">—</strong></div>
+        <div><span>Total DMI</span><strong id="goodTotalDMI">—</strong></div>
+        <div><span>16 kg DMI check</span><strong id="goodDMIcheck">—</strong></div>
+      </div>
+    </div>
 
-    <div class="live-results compact">
-      <div><span>Diet CP</span><strong id="goodDietCP">—</strong></div>
-      <div><span>16% CP target</span><strong id="goodCPcheck">—</strong></div>
-      <div><span>Diet NDF</span><strong id="goodDietNDF">—</strong></div>
-      <div><span>16 kg DMI check</span><strong id="goodDMIcheck">—</strong></div>
-      <div><span>Concentrate cost/cow/day</span><strong id="goodConcCost">—</strong></div>
-      <div><span>Cost range at €340–380/t</span><strong id="goodConcCostRange">—</strong></div>
+    <div class="calc-stage">
+      <p class="stepno">Good forage · Calculation 4</p>
+      <h3>Fresh/as-fed kilograms per cow per day</h3>
+      <div class="formula">
+        Fresh forage = forage DM ÷ forage DM fraction<br>
+        Fresh concentrate = concentrate DM ÷ 0.90
+      </div>
+      <div class="live-results compact">
+        <div><span>Fresh forage</span><strong id="goodGrassFresh">—</strong></div>
+        <div><span>Fresh concentrate</span><strong id="goodConcFreshResult">—</strong></div>
+        <div><span>Fresh ration total</span><strong id="goodFreshTotal">—</strong></div>
+      </div>
+    </div>
+
+    <div class="calc-stage">
+      <p class="stepno">Good forage · Calculation 5</p>
+      <h3>Check CP, NDF and purchased-feed cost</h3>
+      <div class="formula">
+        Diet CP % = [(forage DM × forage CP) + (concentrate DM × 0.16)] ÷ total DMI × 100<br>
+        Diet NDF % = [(forage DM × forage NDF) + (concentrate DM × concentrate NDF)] ÷ total DMI × 100<br>
+        Concentrate cost/day = fresh concentrate × €/kg fresh
+      </div>
+      <div class="live-results compact">
+        <div><span>Diet CP</span><strong id="goodDietCP">—</strong></div>
+        <div><span>16% CP target</span><strong id="goodCPcheck">—</strong></div>
+        <div><span>NDF from forage</span><strong id="goodGrassNDFkg">—</strong></div>
+        <div><span>NDF from concentrate</span><strong id="goodConcNDFkg">—</strong></div>
+        <div><span>Diet NDF</span><strong id="goodDietNDF">—</strong></div>
+        <div><span>Concentrate cost/cow/day</span><strong id="goodConcCost">—</strong></div>
+        <div><span>Cost range at €340–380/t</span><strong id="goodConcCostRange">—</strong></div>
+      </div>
     </div>
 
     <h3>Compare practical concentrate allowances</h3>

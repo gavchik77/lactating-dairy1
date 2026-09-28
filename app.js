@@ -402,10 +402,10 @@ function updateGoodForage(){
   mark("goodConcFresh","goodConcFreshFeedback",concOk,"Within 4–8 kg/day range");
 
   if(!(dmPctOk && cpPctOk && ndfPctOk && concNdfOk && priceOk && concOk)){
-    ["goodMaintenanceME","goodMilkMEperL","goodTotalMEcalc","goodConcDM","goodConcME",
-     "goodGrassME","goodGrassDMkg","goodGrassFresh","goodTotalDMI","goodGrassNDFkg",
-     "goodConcNDFkg","goodDietCP","goodCPcheck","goodDietNDF","goodDMIcheck",
-     "goodConcCost","goodConcCostRange"].forEach(id=>$(id).textContent="—");
+    ["goodMaintenanceME","goodMilkMEperL","goodMilkMEday","goodTotalMEcalc","goodConcDM","goodConcME",
+     "goodGrassME","goodMESumCheck","goodGrassDMkg","goodConcDM2","goodGrassFresh","goodConcFreshResult",
+     "goodFreshTotal","goodTotalDMI","goodGrassNDFkg","goodConcNDFkg","goodDietCP","goodCPcheck",
+     "goodDietNDF","goodDMIcheck","goodConcCost","goodConcCostRange"].forEach(id=>$(id).textContent="—");
     $("goodCostTable").querySelector("tbody").innerHTML="";
     $("goodBestCost").className="feedback neutral";
     $("goodBestCost").textContent="The lowest-cost feasible concentrate allowance will appear here.";
@@ -418,20 +418,28 @@ function updateGoodForage(){
 
   $("goodMaintenanceME").textContent=`${r.maintenanceME.toFixed(1)} MJ/day`;
   $("goodMilkMEperL").textContent=`${r.milkMEperL.toFixed(2)} MJ/L`;
+  $("goodMilkMEday").textContent=`${r.milkMEday.toFixed(1)} MJ/day`;
   $("goodTotalMEcalc").textContent=`${r.totalME.toFixed(1)} MJ/day`;
-  $("goodTotalMETarget").textContent=`${r.totalME.toFixed(1)} MJ/day`;
+
   $("goodConcDM").textContent=`${r.concDM.toFixed(2)} kg/day`;
   $("goodConcME").textContent=`${r.concME.toFixed(1)} MJ/day`;
   $("goodGrassME").textContent=`${r.grassME.toFixed(1)} MJ/day`;
+  $("goodMESumCheck").textContent=`${(r.concME+r.grassME).toFixed(1)} MJ/day`;
+
   $("goodGrassDMkg").textContent=`${r.grassDM.toFixed(2)} kg/day`;
-  $("goodGrassFresh").textContent=`${r.grassFresh.toFixed(1)} kg/day`;
+  $("goodConcDM2").textContent=`${r.concDM.toFixed(2)} kg/day`;
   $("goodTotalDMI").textContent=`${r.totalDMI.toFixed(2)} kg/day`;
+  $("goodDMIcheck").textContent=r.totalDMI<=16?"Within 16 kg":"Above 16 kg";
+
+  $("goodGrassFresh").textContent=`${r.grassFresh.toFixed(1)} kg/day`;
+  $("goodConcFreshResult").textContent=`${concFresh.toFixed(1)} kg/day`;
+  $("goodFreshTotal").textContent=`${(r.grassFresh+concFresh).toFixed(1)} kg/day`;
+
   $("goodGrassNDFkg").textContent=`${r.grassNDFkg.toFixed(2)} kg/day`;
   $("goodConcNDFkg").textContent=`${r.concNDFkg.toFixed(2)} kg/day`;
   $("goodDietCP").textContent=`${r.dietCP.toFixed(1)}%`;
   $("goodCPcheck").textContent=r.dietCP>=16?"Meets/exceeds target":"Below target";
   $("goodDietNDF").textContent=`${r.dietNDF.toFixed(1)}%`;
-  $("goodDMIcheck").textContent=r.totalDMI<=16?"Within 16 kg":"Above 16 kg";
   $("goodConcCost").textContent=`€${r.cost.toFixed(2)}/day`;
   $("goodConcCostRange").textContent=`€${r.costLow.toFixed(2)}–€${r.costHigh.toFixed(2)}/day`;
 

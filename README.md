@@ -1,4 +1,4 @@
-# Dairy Cow Ration Tutor v5
+# Dairy Cow Ration Tutor v6
 
 A GitHub Pages-ready guided teaching app based on the supplied dairy-cow ration example.
 
@@ -141,6 +141,11 @@ The app then identifies the **lowest purchased-feed cost among the tested nutrit
 The app displays whole-diet NDF, but it does not impose an additional mixed-ration NDF cut-off because none was supplied for this dairy exercise.
 
 With the default good-grass analysis (18% DM, 17.5% CP, 37.5% NDF), concentrate NDF 20% and price €360/t, the 4 kg/day concentrate option is expected to be the lowest-cost feasible tested option. It uses the high-quality grass to provide most of the remaining energy rather than overfeeding concentrate.
+
+
+## Full calculation sequence in the good-forage option
+
+The high-quality-grass comparison now explicitly shows: **total ME required/day → ME supplied by forage and concentrate → DM intake from each feed and total DMI → fresh/as-fed kg of each feed → CP, NDF and cost**. These stages appear before the 4–8 kg concentrate comparison table so students see the full calculation, not only the optimisation result.
 
 ## GitHub Pages
 
